@@ -1,0 +1,54 @@
+1. Create Docker Network - mydockernetwork 
+docker network create --attachable -d bridge mydockernetwork
+
+2. start docker compose
+docker-compose up -d
+
+OR manually start database services
+
+3. Run mongo
+docker run -it -d --name mongo-container \
+-p 27017:27017 --network mydockernetwork \
+--restart always \
+-v mongodb_data_container:/data/db \
+mongo:latest
+
+4. Run MS SQL Server
+docker run -d --name sql-container \
+--network mydockernetwork \
+--restart always \
+-e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=P@ssw0rd' -e 'MSSQL_PID=Express' \
+-p 1434:1433 mcr.microsoft.com/mssql/server:2017-latest-ubuntu 
+
+
+=========================================================
+
+Create database and user
+
+USE master;
+GO
+
+CREATE DATABASE SocialMedia;
+GO
+
+
+
+/* Change to the SocialMedia database */
+USE SocialMedia;
+GO
+
+/* Create user */
+IF NOT EXISTS(SELECT *
+FROM sys.server_principals
+WHERE name = 'SMUser')
+BEGIN
+	CREATE LOGIN SMUser WITH PASSWORD=N'SmPA$$06500', DEFAULT_DATABASE=SocialMedia
+END
+
+
+IF NOT EXISTS(SELECT *
+FROM sys.database_principals
+WHERE name = 'SMUser')
+BEGIN
+	EXEC sp_adduser 'SMUser', 'SMUser', 'db_owner';
+END
