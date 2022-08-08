@@ -25,6 +25,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statement.Query.Domain", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statement.Query.Infrastructure", "Statement\Statement.Query\Statement.Query.Infrastructure\Statement.Query.Infrastructure.csproj", "{5B7F12E0-5105-4CC8-8361-327EBDB1ED65}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{42E49808-AB6C-4917-A478-6EB6F1C6BFBE}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		EventSourcingWebApi.postman_collection.json = EventSourcingWebApi.postman_collection.json
+		run.txt = run.txt
+		todo.txt = todo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

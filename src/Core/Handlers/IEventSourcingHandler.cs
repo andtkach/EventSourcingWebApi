@@ -1,6 +1,6 @@
-using CQRS.Core.Domain;
+using Core.Domain;
 
-namespace CQRS.Core.Handlers
+namespace Core.Handlers
 {
     public interface IEventSourcingHandler<T>
     {

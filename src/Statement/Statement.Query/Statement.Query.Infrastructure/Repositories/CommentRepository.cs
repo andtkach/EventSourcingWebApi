@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Post.Query.Domain.Entities;
-using Post.Query.Domain.Repositories;
-using Post.Query.Infrastructure.DataAccess;
+using Statement.Query.Domain.Entities;
+using Statement.Query.Domain.Repositories;
+using Statement.Query.Infrastructure.DataAccess;
 
-namespace Post.Query.Infrastructure.Repositories
+namespace Statement.Query.Infrastructure.Repositories
 {
     public class CommentRepository : ICommentRepository
     {

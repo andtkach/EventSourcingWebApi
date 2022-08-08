@@ -1,9 +1,9 @@
-using CQRS.Core.Consumers;
+using Core.Consumers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Post.Query.Infrastructure.Consumers
+namespace Statement.Query.Infrastructure.Consumers
 {
     public class ConsumerHostedService : IHostedService
     {

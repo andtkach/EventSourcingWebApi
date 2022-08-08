@@ -1,7 +1,7 @@
-using CQRS.Core.Commands;
-using CQRS.Core.Infrastructure;
+using Core.Commands;
+using Core.Infrastructure;
 
-namespace Post.Cmd.Infrastructure.Dispatchers
+namespace Statement.Command.Infrastructure.Dispatchers
 {
     public class CommandDispatcher : ICommandDispatcher
     {
@@ -11,7 +11,7 @@ namespace Post.Cmd.Infrastructure.Dispatchers
         {
             if (_handlers.ContainsKey(typeof(T)))
             {
-                throw new IndexOutOfRangeException("You cannot register the same command handler twice!");
+                throw new IndexOutOfRangeException("You cannot register the same command handler twice");
             }
 
             _handlers.Add(typeof(T), x => handler((T)x));
@@ -25,7 +25,7 @@ namespace Post.Cmd.Infrastructure.Dispatchers
             }
             else
             {
-                throw new ArgumentNullException(nameof(handler), "No command handler was registered!");
+                throw new ArgumentNullException(nameof(handler), "No command handler was registered");
             }
         }
     }

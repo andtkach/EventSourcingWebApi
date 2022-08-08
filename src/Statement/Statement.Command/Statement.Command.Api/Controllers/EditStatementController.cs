@@ -1,26 +1,26 @@
-using CQRS.Core.Exceptions;
-using CQRS.Core.Infrastructure;
+using Core.Exceptions;
+using Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Post.Cmd.Api.Commands;
-using Post.Common.DTOs;
+using Statement.Command.Api.Commands;
+using Statement.Common.DTOs;
 
-namespace Post.Cmd.Api.Controllers
+namespace Statement.Command.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class DeletePostController : ControllerBase
+    public class EditStatementController : ControllerBase
     {
-        private readonly ILogger<DeletePostController> _logger;
+        private readonly ILogger<EditStatementController> _logger;
         private readonly ICommandDispatcher _commandDispatcher;
 
-        public DeletePostController(ILogger<DeletePostController> logger, ICommandDispatcher commandDispatcher)
+        public EditStatementController(ILogger<EditStatementController> logger, ICommandDispatcher commandDispatcher)
         {
             _logger = logger;
             _commandDispatcher = commandDispatcher;
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePostAsync(Guid id, DeletePostCommand command)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> EditStatementAsync(Guid id, EditStatementCommand command)
         {
             try
             {
@@ -29,12 +29,12 @@ namespace Post.Cmd.Api.Controllers
 
                 return Ok(new BaseResponse
                 {
-                    Message = "Delete post request completed successfully!"
+                    Message = "Edit message request completed successfully"
                 });
             }
             catch (InvalidOperationException ex)
             {
-                _logger.Log(LogLevel.Warning, ex, "Client made a bad request!");
+                _logger.Log(LogLevel.Warning, ex, "Client made a bad request");
                 return BadRequest(new BaseResponse
                 {
                     Message = ex.Message
@@ -42,7 +42,7 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (AggregateNotFoundException ex)
             {
-                _logger.Log(LogLevel.Warning, ex, "Could not retrieve aggregate, client passed an incorrect post ID targetting the aggregate!");
+                _logger.Log(LogLevel.Warning, ex, "Could not retrieve aggregate, client passed an incorrect statement ID targetting the aggregate");
                 return BadRequest(new BaseResponse
                 {
                     Message = ex.Message
@@ -50,12 +50,12 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (Exception ex)
             {
-                const string SAFE_ERROR_MESSAGE = "Error while processing request to delete a post!";
-                _logger.Log(LogLevel.Error, ex, SAFE_ERROR_MESSAGE);
+                const string msg = "Error while processing request to edit the message of a statement";
+                _logger.Log(LogLevel.Error, ex, msg);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
                 {
-                    Message = SAFE_ERROR_MESSAGE
+                    Message = msg
                 });
             }
         }

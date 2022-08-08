@@ -17,7 +17,7 @@
       "applicationUrl": "https://localhost:7071;http://localhost:7070",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "KAFKA_TOPIC": "SocialMediaPostEvents"
+        "KAFKA_TOPIC": "StatementsEvents"
       }
     },
     "IIS Express": {

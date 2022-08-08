@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Post.Query.Domain.Entities
+namespace Statement.Query.Domain.Entities
 {
     [Table("Comment", Schema = "dbo")]
-    public class CommentEntity
+    public class CommentEntity: TrackEntity
     {
         [Key]
         public Guid CommentId { get; set; }
@@ -12,9 +12,9 @@ namespace Post.Query.Domain.Entities
         public DateTime CommentDate { get; set; }
         public string Comment { get; set; }
         public bool Edited { get; set; }
-        public Guid PostId { get; set; }
+        public Guid StatementId { get; set; }
 
         [System.Text.Json.Serialization.JsonIgnore]
-        public virtual PostEntity Post { get; set; }
+        public virtual StatementEntity Statement { get; set; }
     }
 }

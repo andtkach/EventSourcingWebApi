@@ -1,6 +1,6 @@
-using CQRS.Core.Queries;
+using Core.Queries;
 
-namespace CQRS.Core.Infrastructure
+namespace Core.Infrastructure
 {
     public interface IQueryDispatcher<TEntity>
     {

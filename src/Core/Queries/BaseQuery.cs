@@ -1,4 +1,4 @@
-namespace CQRS.Core.Queries
+namespace Core.Queries
 {
     public abstract class BaseQuery
     {

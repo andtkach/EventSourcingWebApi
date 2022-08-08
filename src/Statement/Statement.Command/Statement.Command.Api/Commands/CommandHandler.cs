@@ -1,36 +1,36 @@
-using CQRS.Core.Handlers;
-using Post.Cmd.Domain.Aggregates;
+using Core.Handlers;
+using Statement.Command.Domain.Aggregates;
 
-namespace Post.Cmd.Api.Commands
+namespace Statement.Command.Api.Commands
 {
     public class CommandHandler : ICommandHandler
     {
-        private readonly IEventSourcingHandler<PostAggregate> _eventSourcingHandler;
+        private readonly IEventSourcingHandler<StatementAggregate> _eventSourcingHandler;
 
-        public CommandHandler(IEventSourcingHandler<PostAggregate> eventSourcingHandler)
+        public CommandHandler(IEventSourcingHandler<StatementAggregate> eventSourcingHandler)
         {
             _eventSourcingHandler = eventSourcingHandler;
         }
 
-        public async Task HandleAsync(NewPostCommand command)
+        public async Task HandleAsync(NewStatementCommand command)
         {
-            var aggregate = new PostAggregate(command.Id, command.Author, command.Message);
+            var aggregate = new StatementAggregate(command.Id, command.Author, command.Message);
 
             await _eventSourcingHandler.SaveAsync(aggregate);
         }
 
-        public async Task HandleAsync(EditMessageCommand command)
+        public async Task HandleAsync(EditStatementCommand command)
         {
             var aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-            aggregate.EditMessage(command.Message);
+            aggregate.EditMessage(command.Author, command.Message);
 
             await _eventSourcingHandler.SaveAsync(aggregate);
         }
 
-        public async Task HandleAsync(LikePostCommand command)
+        public async Task HandleAsync(LikeStatementCommand command)
         {
             var aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-            aggregate.LikePost();
+            aggregate.LikeStatement();
 
             await _eventSourcingHandler.SaveAsync(aggregate);
         }
@@ -59,10 +59,10 @@ namespace Post.Cmd.Api.Commands
             await _eventSourcingHandler.SaveAsync(aggregate);
         }
 
-        public async Task HandleAsync(DeletePostCommand command)
+        public async Task HandleAsync(DeleteStatementCommand command)
         {
             var aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-            aggregate.DeletePost(command.Username);
+            aggregate.DeleteStatement(command.Username);
 
             await _eventSourcingHandler.SaveAsync(aggregate);
         }

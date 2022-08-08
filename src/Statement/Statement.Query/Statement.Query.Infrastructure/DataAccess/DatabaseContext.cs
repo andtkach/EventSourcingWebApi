@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Post.Query.Domain.Entities;
+using Statement.Query.Domain.Entities;
 
-namespace Post.Query.Infrastructure.DataAccess
+namespace Statement.Query.Infrastructure.DataAccess
 {
     public class DatabaseContext : DbContext
     {
@@ -9,7 +9,7 @@ namespace Post.Query.Infrastructure.DataAccess
         {
         }
 
-        public DbSet<PostEntity> Posts { get; set; }
+        public DbSet<StatementEntity> Statements { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
     }
 }

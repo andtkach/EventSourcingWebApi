@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace CQRS.Core.Events
+namespace Core.Events
 {
     public class EventModel
     {
@@ -10,6 +10,7 @@ namespace CQRS.Core.Events
         public string Id { get; set; }
         public DateTime TimeStamp { get; set; }
         public Guid AggregateIdentifier { get; set; }
+        public string AggregateId { get; set; }
         public string AggregateType { get; set; }
         public int Version { get; set; }
         public string EventType { get; set; }

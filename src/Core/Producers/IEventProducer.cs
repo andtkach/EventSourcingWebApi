@@ -1,9 +1,9 @@
-using CQRS.Core.Events;
+using Core.Events;
 
-namespace CQRS.Core.Producers
+namespace Core.Producers
 {
     public interface IEventProducer
     {
-        Task ProduceAsync<T>(string topic, T @event) where T : BaseEvent;
+        Task ProduceAsync<T>(string topic, T evt) where T : BaseEvent;
     }
 }

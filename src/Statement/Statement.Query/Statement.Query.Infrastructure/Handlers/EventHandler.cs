@@ -1,89 +1,95 @@
-using Post.Common.Events;
-using Post.Query.Domain.Entities;
-using Post.Query.Domain.Repositories;
+using Statement.Common.Events;
+using Statement.Query.Domain.Entities;
+using Statement.Query.Domain.Repositories;
 
-namespace Post.Query.Infrastructure.Handlers
+namespace Statement.Query.Infrastructure.Handlers
 {
     public class EventHandler : IEventHandler
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IStatementRepository _statementRepository;
         private readonly ICommentRepository _commentRepository;
 
-        public EventHandler(IPostRepository postRepository, ICommentRepository commentRepository)
+        public EventHandler(IStatementRepository statementRepository, ICommentRepository commentRepository)
         {
-            _postRepository = postRepository;
+            _statementRepository = statementRepository;
             _commentRepository = commentRepository;
         }
 
-        public async Task On(PostCreatedEvent @event)
+        public async Task On(StatementCreatedEvent evt)
         {
-            var post = new PostEntity
+            var statement = new StatementEntity
             {
-                PostId = @event.Id,
-                Author = @event.Author,
-                DatePosted = @event.DatePosted,
-                Message = @event.Message
+                Id = evt.Id,
+                Author = evt.Author,
+                Message = evt.Message,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = evt.Author,
+                UpdatedAt = DateTime.MinValue,
+                UpdatedBy = string.Empty
             };
 
-            await _postRepository.CreateAsync(post);
+            await _statementRepository.CreateAsync(statement);
         }
 
-        public async Task On(MessageUpdatedEvent @event)
+        public async Task On(StatementUpdatedEvent evt)
         {
-            var post = await _postRepository.GetByIdAsync(@event.Id);
+            var statement = await _statementRepository.GetByIdAsync(evt.Id);
 
-            if (post == null) return;
+            if (statement == null) return;
 
-            post.Message = @event.Message;
-            await _postRepository.UpdateAsync(post);
+            statement.Message = evt.Message;
+            statement.UpdatedAt = DateTime.UtcNow;
+            statement.UpdatedBy = evt.Author;
+                
+            await _statementRepository.UpdateAsync(statement);
         }
 
-        public async Task On(PostLikedEvent @event)
+        public async Task On(StatementLikedEvent evt)
         {
-            var post = await _postRepository.GetByIdAsync(@event.Id);
+            var statement = await _statementRepository.GetByIdAsync(evt.Id);
 
-            if (post == null) return;
+            if (statement == null) return;
 
-            post.Likes++;
-            await _postRepository.UpdateAsync(post);
+            statement.Likes++;
+            await _statementRepository.UpdateAsync(statement);
         }
 
-        public async Task On(CommentAddedEvent @event)
+        public async Task On(CommentAddedEvent evt)
         {
             var comment = new CommentEntity
             {
-                PostId = @event.Id,
-                CommentId = @event.CommentId,
-                CommentDate = @event.CommentDate,
-                Comment = @event.Comment,
-                Username = @event.Username,
+                StatementId = evt.Id,
+                CommentId = evt.CommentId,
+                CommentDate = evt.CommentDate,
+                Comment = evt.Comment,
+                Username = evt.Username,
                 Edited = false
             };
 
             await _commentRepository.CreateAsync(comment);
         }
 
-        public async Task On(CommentUpdatedEvent @event)
+        public async Task On(CommentUpdatedEvent evt)
         {
-            var comment = await _commentRepository.GetByIdAsync(@event.CommentId);
+            var comment = await _commentRepository.GetByIdAsync(evt.CommentId);
 
             if (comment == null) return;
 
-            comment.Comment = @event.Comment;
+            comment.Comment = evt.Comment;
             comment.Edited = true;
-            comment.CommentDate = @event.EditDate;
+            comment.CommentDate = evt.EditDate;
 
             await _commentRepository.UpdateAsync(comment);
         }
 
-        public async Task On(CommentRemovedEvent @event)
+        public async Task On(CommentRemovedEvent evt)
         {
-            await _commentRepository.DeleteAsync(@event.CommentId);
+            await _commentRepository.DeleteAsync(evt.CommentId);
         }
 
-        public async Task On(PostRemovedEvent @event)
+        public async Task On(StatementRemovedEvent evt)
         {
-            await _postRepository.DeleteAsync(@event.Id);
+            await _statementRepository.DeleteAsync(evt.Id);
         }
     }
 }

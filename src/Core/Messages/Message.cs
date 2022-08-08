@@ -1,4 +1,4 @@
-namespace CQRS.Core.Messages
+namespace Core.Messages
 {
     public abstract class Message
     {

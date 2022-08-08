@@ -1,9 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CQRS.Core.Events;
-using Post.Common.Events;
+using Core.Events;
+using Statement.Common.Events;
 
-namespace Post.Query.Infrastructure.Converters
+namespace Statement.Query.Infrastructure.Converters
 {
     public class EventJsonConverter : JsonConverter<BaseEvent>
     {
@@ -21,7 +21,7 @@ namespace Post.Query.Infrastructure.Converters
 
             if (!doc.RootElement.TryGetProperty("Type", out var type))
             {
-                throw new JsonException("Could not detect the Type discriminator property!");
+                throw new JsonException("Could not detect the Type discriminator property");
             }
 
             var typeDiscriminator = type.GetString();
@@ -29,14 +29,14 @@ namespace Post.Query.Infrastructure.Converters
 
             return typeDiscriminator switch
             {
-                nameof(PostCreatedEvent) => JsonSerializer.Deserialize<PostCreatedEvent>(json, options),
-                nameof(MessageUpdatedEvent) => JsonSerializer.Deserialize<MessageUpdatedEvent>(json, options),
-                nameof(PostLikedEvent) => JsonSerializer.Deserialize<PostLikedEvent>(json, options),
+                nameof(StatementCreatedEvent) => JsonSerializer.Deserialize<StatementCreatedEvent>(json, options),
+                nameof(StatementUpdatedEvent) => JsonSerializer.Deserialize<StatementUpdatedEvent>(json, options),
+                nameof(StatementLikedEvent) => JsonSerializer.Deserialize<StatementLikedEvent>(json, options),
                 nameof(CommentAddedEvent) => JsonSerializer.Deserialize<CommentAddedEvent>(json, options),
                 nameof(CommentUpdatedEvent) => JsonSerializer.Deserialize<CommentUpdatedEvent>(json, options),
                 nameof(CommentRemovedEvent) => JsonSerializer.Deserialize<CommentRemovedEvent>(json, options),
-                nameof(PostRemovedEvent) => JsonSerializer.Deserialize<PostRemovedEvent>(json, options),
-                _ => throw new JsonException($"{typeDiscriminator} is not supported yet!")
+                nameof(StatementRemovedEvent) => JsonSerializer.Deserialize<StatementRemovedEvent>(json, options),
+                _ => throw new JsonException($"{typeDiscriminator} is not supported yet")
             };
         }
 

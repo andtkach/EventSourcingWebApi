@@ -1,10 +1,10 @@
-using CQRS.Core.Events;
+using Core.Events;
 
-namespace CQRS.Core.Domain
+namespace Core.Domain
 {
     public interface IEventStoreRepository
     {
-        Task SaveAsync(EventModel @event);
+        Task SaveAsync(EventModel evt);
         Task<List<EventModel>> FindByAggregateId(Guid aggregateId);
         Task<List<EventModel>> FindAllAsync();
     }

@@ -28,13 +28,13 @@ Create database and user
 USE master;
 GO
 
-CREATE DATABASE SocialMedia;
+CREATE DATABASE StatementsDb;
 GO
 
 
 
-/* Change to the SocialMedia database */
-USE SocialMedia;
+/* Change to the StatementsDb database */
+USE StatementsDb;
 GO
 
 /* Create user */
@@ -42,7 +42,7 @@ IF NOT EXISTS(SELECT *
 FROM sys.server_principals
 WHERE name = 'SMUser')
 BEGIN
-	CREATE LOGIN SMUser WITH PASSWORD=N'SmPA$$06500', DEFAULT_DATABASE=SocialMedia
+	CREATE LOGIN SMUser WITH PASSWORD=N'S-PA$$W0rd', DEFAULT_DATABASE=StatementsDb
 END
 
 

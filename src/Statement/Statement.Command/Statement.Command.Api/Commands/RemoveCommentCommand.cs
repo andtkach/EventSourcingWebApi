@@ -1,6 +1,6 @@
-using CQRS.Core.Commands;
+using Core.Commands;
 
-namespace Post.Cmd.Api.Commands
+namespace Statement.Command.Api.Commands
 {
     public class RemoveCommentCommand : BaseCommand
     {

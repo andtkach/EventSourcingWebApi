@@ -1,10 +1,10 @@
 using System.Text.Json;
 using Confluent.Kafka;
-using CQRS.Core.Events;
-using CQRS.Core.Producers;
+using Core.Events;
+using Core.Producers;
 using Microsoft.Extensions.Options;
 
-namespace Post.Cmd.Infrastructure.Producers
+namespace Statement.Command.Infrastructure.Producers
 {
     public class EventProducer : IEventProducer
     {
@@ -15,7 +15,7 @@ namespace Post.Cmd.Infrastructure.Producers
             _config = config.Value;
         }
 
-        public async Task ProduceAsync<T>(string topic, T @event) where T : BaseEvent
+        public async Task ProduceAsync<T>(string topic, T evt) where T : BaseEvent
         {
             using var producer = new ProducerBuilder<string, string>(_config)
                 .SetKeySerializer(Serializers.Utf8)
@@ -25,14 +25,14 @@ namespace Post.Cmd.Infrastructure.Producers
             var eventMessage = new Message<string, string>
             {
                 Key = Guid.NewGuid().ToString(),
-                Value = JsonSerializer.Serialize(@event, @event.GetType())
+                Value = JsonSerializer.Serialize(evt, evt.GetType())
             };
 
             var deliveryResult = await producer.ProduceAsync(topic, eventMessage);
 
             if (deliveryResult.Status == PersistenceStatus.NotPersisted)
             {
-                throw new Exception($"Could not produce {@event.GetType().Name} message to topic - {topic} due to the following reason: {deliveryResult.Message}.");
+                throw new Exception($"Could not produce {evt.GetType().Name} message to topic - {topic} due to the following reason: {deliveryResult.Message}.");
             }
         }
     }

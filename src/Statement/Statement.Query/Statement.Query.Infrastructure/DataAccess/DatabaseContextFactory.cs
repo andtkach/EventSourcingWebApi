@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Post.Query.Infrastructure.DataAccess
+namespace Statement.Query.Infrastructure.DataAccess
 {
     public class DatabaseContextFactory
     {

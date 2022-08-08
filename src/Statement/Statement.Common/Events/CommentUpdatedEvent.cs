@@ -1,6 +1,6 @@
-using CQRS.Core.Events;
+using Core.Events;
 
-namespace Post.Common.Events
+namespace Statement.Common.Events
 {
     public class CommentUpdatedEvent : BaseEvent
     {

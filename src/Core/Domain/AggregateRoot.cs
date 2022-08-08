@@ -1,6 +1,6 @@
-using CQRS.Core.Events;
+using Core.Events;
 
-namespace CQRS.Core.Domain
+namespace Core.Domain
 {
     public abstract class AggregateRoot
     {
@@ -24,33 +24,33 @@ namespace CQRS.Core.Domain
             _changes.Clear();
         }
 
-        private void ApplyChange(BaseEvent @event, bool isNew)
+        private void ApplyChange(BaseEvent evt, bool isNew)
         {
-            var method = this.GetType().GetMethod("Apply", new Type[] { @event.GetType() });
+            var method = this.GetType().GetMethod("Apply", new Type[] { evt.GetType() });
 
             if (method == null)
             {
-                throw new ArgumentNullException(nameof(method), $"The Apply method was not found in the aggregate for {@event.GetType().Name}!");
+                throw new ArgumentNullException(nameof(method), $"The Apply method was not found in the aggregate for {evt.GetType().Name}");
             }
 
-            method.Invoke(this, new object[] { @event });
+            method.Invoke(this, new object[] { evt });
 
             if (isNew)
             {
-                _changes.Add(@event);
+                _changes.Add(evt);
             }
         }
 
-        protected void RaiseEvent(BaseEvent @event)
+        protected void RaiseEvent(BaseEvent evt)
         {
-            ApplyChange(@event, true);
+            ApplyChange(evt, true);
         }
 
         public void ReplayEvents(IEnumerable<BaseEvent> events)
         {
-            foreach (var @event in events)
+            foreach (var evt in events)
             {
-                ApplyChange(@event, false);
+                ApplyChange(evt, false);
             }
         }
     }

@@ -1,10 +1,10 @@
-using CQRS.Core.Domain;
-using CQRS.Core.Events;
+using Core.Domain;
+using Core.Events;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Post.Cmd.Infrastructure.Config;
+using Statement.Command.Infrastructure.Config;
 
-namespace Post.Cmd.Infrastructure.Repositories
+namespace Statement.Command.Infrastructure.Repositories
 {
     public class EventStoreRepository : IEventStoreRepository
     {
@@ -28,9 +28,9 @@ namespace Post.Cmd.Infrastructure.Repositories
             return await _eventStoreCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task SaveAsync(EventModel @event)
+        public async Task SaveAsync(EventModel evt)
         {
-            await _eventStoreCollection.InsertOneAsync(@event).ConfigureAwait(false);
+            await _eventStoreCollection.InsertOneAsync(evt).ConfigureAwait(false);
         }
     }
 }

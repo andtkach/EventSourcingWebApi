@@ -1,6 +1,6 @@
-using Post.Query.Domain.Entities;
+using Statement.Query.Domain.Entities;
 
-namespace Post.Query.Domain.Repositories
+namespace Statement.Query.Domain.Repositories
 {
     public interface ICommentRepository
     {

@@ -1,9 +1,9 @@
-using CQRS.Core.Infrastructure;
+using Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Post.Cmd.Api.Commands;
-using Post.Common.DTOs;
+using Statement.Command.Api.Commands;
+using Statement.Common.DTOs;
 
-namespace Post.Cmd.Api.Controllers
+namespace Statement.Command.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -27,12 +27,12 @@ namespace Post.Cmd.Api.Controllers
 
                 return StatusCode(StatusCodes.Status201Created, new BaseResponse
                 {
-                    Message = "Read database restore request completed successfully!"
+                    Message = "Read database restore request completed successfully"
                 });
             }
             catch (InvalidOperationException ex)
             {
-                _logger.Log(LogLevel.Warning, ex, "Client made a bad request!");
+                _logger.Log(LogLevel.Warning, ex, "Client made a bad request");
                 return BadRequest(new BaseResponse
                 {
                     Message = ex.Message
@@ -40,12 +40,12 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (Exception ex)
             {
-                const string SAFE_ERROR_MESSAGE = "Error while processing request to restore read database!";
-                _logger.Log(LogLevel.Error, ex, SAFE_ERROR_MESSAGE);
+                const string msg = "Error while processing request to restore read database";
+                _logger.Log(LogLevel.Error, ex, msg);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
                 {
-                    Message = SAFE_ERROR_MESSAGE
+                    Message = msg
                 });
             }
         }

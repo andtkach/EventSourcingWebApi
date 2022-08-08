@@ -1,13 +1,13 @@
-using Post.Query.Domain.Entities;
+using Statement.Query.Domain.Entities;
 
-namespace Post.Query.Api.Queries
+namespace Statement.Query.Api.Queries
 {
     public interface IQueryHandler
     {
-        Task<List<PostEntity>> HandleAsync(FindAllPostsQuery query);
-        Task<List<PostEntity>> HandleAsync(FindPostByIdQuery query);
-        Task<List<PostEntity>> HandleAsync(FindPostsByAuthorQuery query);
-        Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query);
-        Task<List<PostEntity>> HandleAsync(FindPostsWithLikesQuery query);
+        Task<List<StatementEntity>> HandleAsync(FindAllStatementsQuery query);
+        Task<List<StatementEntity>> HandleAsync(FindStatementByIdQuery query);
+        Task<List<StatementEntity>> HandleAsync(FindStatementsByAuthorQuery query);
+        Task<List<StatementEntity>> HandleAsync(FindStatementsWithCommentsQuery query);
+        Task<List<StatementEntity>> HandleAsync(FindStatementsWithLikesQuery query);
     }
 }

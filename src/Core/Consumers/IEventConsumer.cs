@@ -1,4 +1,4 @@
-namespace CQRS.Core.Consumers
+namespace Core.Consumers
 {
     public interface IEventConsumer
     {

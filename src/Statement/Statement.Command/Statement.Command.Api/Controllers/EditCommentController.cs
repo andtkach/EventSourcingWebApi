@@ -1,10 +1,10 @@
-using CQRS.Core.Exceptions;
-using CQRS.Core.Infrastructure;
+using Core.Exceptions;
+using Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Post.Cmd.Api.Commands;
-using Post.Common.DTOs;
+using Statement.Command.Api.Commands;
+using Statement.Common.DTOs;
 
-namespace Post.Cmd.Api.Controllers
+namespace Statement.Command.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -29,12 +29,12 @@ namespace Post.Cmd.Api.Controllers
 
                 return Ok(new BaseResponse
                 {
-                    Message = "Edit comment request completed successfully!"
+                    Message = "Edit comment request completed successfully"
                 });
             }
             catch (InvalidOperationException ex)
             {
-                _logger.Log(LogLevel.Warning, ex, "Client made a bad request!");
+                _logger.Log(LogLevel.Warning, ex, "Client made a bad request");
                 return BadRequest(new BaseResponse
                 {
                     Message = ex.Message
@@ -42,7 +42,7 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (AggregateNotFoundException ex)
             {
-                _logger.Log(LogLevel.Warning, ex, "Could not retrieve aggregate, client passed an incorrect post ID targetting the aggregate!");
+                _logger.Log(LogLevel.Warning, ex, "Could not retrieve aggregate, client passed an incorrect statement ID targetting the aggregate");
                 return BadRequest(new BaseResponse
                 {
                     Message = ex.Message
@@ -50,12 +50,12 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (Exception ex)
             {
-                const string SAFE_ERROR_MESSAGE = "Error while processing request to edit a comment on a post!";
-                _logger.Log(LogLevel.Error, ex, SAFE_ERROR_MESSAGE);
+                const string msg = "Error while processing request to edit a comment on a statement";
+                _logger.Log(LogLevel.Error, ex, msg);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
                 {
-                    Message = SAFE_ERROR_MESSAGE
+                    Message = msg
                 });
             }
         }

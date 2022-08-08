@@ -1,6 +1,6 @@
-using CQRS.Core.Events;
+using Core.Events;
 
-namespace CQRS.Core.Infrastructure
+namespace Core.Infrastructure
 {
     public interface IEventStore
     {

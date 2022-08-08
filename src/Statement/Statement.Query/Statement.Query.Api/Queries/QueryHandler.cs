@@ -1,41 +1,41 @@
-using Post.Query.Domain.Entities;
-using Post.Query.Domain.Repositories;
+using Statement.Query.Domain.Entities;
+using Statement.Query.Domain.Repositories;
 
-namespace Post.Query.Api.Queries
+namespace Statement.Query.Api.Queries
 {
     public class QueryHandler : IQueryHandler
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IStatementRepository _statementRepository;
 
-        public QueryHandler(IPostRepository postRepository)
+        public QueryHandler(IStatementRepository statementRepository)
         {
-            _postRepository = postRepository;
+            _statementRepository = statementRepository;
         }
 
-        public async Task<List<PostEntity>> HandleAsync(FindAllPostsQuery query)
+        public async Task<List<StatementEntity>> HandleAsync(FindAllStatementsQuery query)
         {
-            return await _postRepository.ListAllAsync();
+            return await _statementRepository.ListAllAsync();
         }
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostByIdQuery query)
+        public async Task<List<StatementEntity>> HandleAsync(FindStatementByIdQuery query)
         {
-            var post = await _postRepository.GetByIdAsync(query.Id);
-            return new List<PostEntity> { post };
+            var data = await _statementRepository.GetByIdAsync(query.Id);
+            return new List<StatementEntity> { data };
         }
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostsByAuthorQuery query)
+        public async Task<List<StatementEntity>> HandleAsync(FindStatementsByAuthorQuery query)
         {
-            return await _postRepository.ListByAuthorAsync(query.Author);
+            return await _statementRepository.ListByAuthorAsync(query.Author);
         }
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query)
+        public async Task<List<StatementEntity>> HandleAsync(FindStatementsWithCommentsQuery query)
         {
-            return await _postRepository.ListWithCommentsAsync();
+            return await _statementRepository.ListWithCommentsAsync();
         }
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostsWithLikesQuery query)
+        public async Task<List<StatementEntity>> HandleAsync(FindStatementsWithLikesQuery query)
         {
-            return await _postRepository.ListWithLikesAsync(query.NumberOfLikes);
+            return await _statementRepository.ListWithLikesAsync(query.NumberOfLikes);
         }
     }
 }

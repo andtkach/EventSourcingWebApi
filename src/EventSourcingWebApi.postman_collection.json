@@ -42,7 +42,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:7071/api/v1/newpost",
+					"raw": "https://localhost:7071/api/v1/newstatement",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -51,7 +51,7 @@
 					"path": [
 						"api",
 						"v1",
-						"newpost"
+						"newstatement"
 					]
 				}
 			},

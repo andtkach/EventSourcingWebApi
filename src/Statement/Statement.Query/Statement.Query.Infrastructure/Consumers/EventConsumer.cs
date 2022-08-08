@@ -1,12 +1,12 @@
 using System.Text.Json;
 using Confluent.Kafka;
-using CQRS.Core.Consumers;
-using CQRS.Core.Events;
+using Core.Consumers;
+using Core.Events;
 using Microsoft.Extensions.Options;
-using Post.Query.Infrastructure.Converters;
-using Post.Query.Infrastructure.Handlers;
+using Statement.Query.Infrastructure.Converters;
+using Statement.Query.Infrastructure.Handlers;
 
-namespace Post.Query.Infrastructure.Consumers
+namespace Statement.Query.Infrastructure.Consumers
 {
     public class EventConsumer : IEventConsumer
     {
@@ -37,15 +37,15 @@ namespace Post.Query.Infrastructure.Consumers
                 if (consumeResult?.Message == null) continue;
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
-                var @event = JsonSerializer.Deserialize<BaseEvent>(consumeResult.Message.Value, options);
-                var handlerMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                var evt = JsonSerializer.Deserialize<BaseEvent>(consumeResult.Message.Value, options);
+                var handlerMethod = _eventHandler.GetType().GetMethod("On", new Type[] { evt.GetType() });
 
                 if (handlerMethod == null)
                 {
-                    throw new ArgumentNullException(nameof(handlerMethod), "Could not find event handler method!");
+                    throw new ArgumentNullException(nameof(handlerMethod), "Could not find event handler method");
                 }
 
-                handlerMethod.Invoke(_eventHandler, new object[] { @event });
+                handlerMethod.Invoke(_eventHandler, new object[] { evt });
                 consumer.Commit(consumeResult);
             }
         }

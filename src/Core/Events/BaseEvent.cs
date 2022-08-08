@@ -1,6 +1,6 @@
-using CQRS.Core.Messages;
+using Core.Messages;
 
-namespace CQRS.Core.Events
+namespace Core.Events
 {
     public abstract class BaseEvent : Message
     {
